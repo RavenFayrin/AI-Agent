@@ -10,4 +10,4 @@ print("Result for '/bin' directory:")
 print(f"{get_files_info("calculator", "/bin")}\n")
 
 print("Result for '../' directory:")
-print(f"{get_files_info("calculator", "../")}\n")
+print(f"{get_files_info("calculator", "../")}")
