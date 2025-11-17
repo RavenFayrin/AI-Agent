@@ -11,7 +11,11 @@ def get_file_content(working_directory, file_path):
     if not os.path.isfile(target_dir):
         return f'Error: "{file_path}" is not a directory'
     
-    with open(file_path, "r") as f:
-        file_content_string = f.read(MAX_CHARS)
-        if f.read(MAX_CHARS) > 10000:
-            file_content_string.append(f"[...File {file_path} truncated at 10000 characters]")
+    try:
+        with open(file_path, "r") as f:
+            file_content_string = f.read(MAX_CHARS)
+            if f.read(MAX_CHARS) > 10000:
+                file_content_string.append(f"[...File {file_path} truncated at 10000 characters]")
+            return file_content_string
+    except Exception as e:
+        return f"Error: {e}"
