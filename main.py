@@ -6,6 +6,8 @@ from google import genai
 from google.genai import types
 
 from prompts import system_prompt
+from functions.get_files_info import schema_get_files_info
+from functions.get_files_info import available_functions
 
 
 def main():
@@ -31,16 +33,22 @@ def generate_content(client, messages, verbose):
     response = client.models.generate_content(
         model="gemini-2.5-flash",
         contents=messages,
-        config=types.GenerateContentConfig(system_instruction=system_prompt),
+        config=types.GenerateContentConfig(tools=[available_functions], system_instruction=system_prompt),
     )
+
     if not response.usage_metadata:
         raise RuntimeError("Gemini API response appears to be malformed")
 
     if verbose:
         print("Prompt tokens:", response.usage_metadata.prompt_token_count)
         print("Response tokens:", response.usage_metadata.candidates_token_count)
-    print("Response:")
-    print(response.text)
+
+    if response.function_calls:
+            for function_call_part in response.function_calls:
+                print(f"Calling function: {function_call_part.name}({function_call_part.args})")
+    else:
+        print("Response:")
+        print(response.text)
 
 
 if __name__ == "__main__":
