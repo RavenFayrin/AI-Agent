@@ -7,7 +7,7 @@ from google.genai import types
 
 from call_function import available_functions
 from prompts import system_prompt
-##
+###
 
 def main():
     parser = argparse.ArgumentParser(description="AI Code Assistant")
