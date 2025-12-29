@@ -25,14 +25,19 @@ def write_file(working_directory, file_path, content):
         return f"Error: writing to file: {e}"
     
 schema_write_file = types.FunctionDeclaration(
-    name="write_files_content",
-    description="Write files in the specified directory, constrained to the working directory.",
+    name="write_file",
+    description="Write or overwrite a file within the working directory.",
     parameters=types.Schema(
         type=types.Type.OBJECT,
+        required=["file_path", "content"],
         properties={
-            "directory": types.Schema(
+            "file_path": types.Schema(
                 type=types.Type.STRING,
-                description="The directory to write files to, relative to the working directory. If not provided, lists files in the working directory itself.",
+                description="The file location in which the content should be written, relative to the working directory."
+            ),
+            "content": types.Schema(
+                type=types.Type.STRING,
+                description="The string that should be written into the file."
             ),
         },
     ),
